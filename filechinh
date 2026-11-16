@@ -1,0 +1,750 @@
+--[[
+    MEMAYBEO HUB V2.6
+    Gaming Script Hub
+    Toggle UI: Floating Image Button
+]]
+
+
+
+local Players = game:GetService("Players")
+
+local UIS = game:GetService("UserInputService")
+
+local TweenService = game:GetService("TweenService")
+
+local CoreGui = game:GetService("CoreGui")
+
+
+
+local Player = Players.LocalPlayer
+-- XÓA MENU CŨ
+pcall(function()
+
+    local old = (gethui and gethui()) or CoreGui
+
+    local gui = old:FindFirstChild("MEMAYBEO_HUB")
+
+    if gui then gui:Destroy() end
+
+end)
+-- GUI
+local ScreenGui = Instance.new("ScreenGui")
+
+ScreenGui.Name = "MEMAYBEO_HUB"
+
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+
+
+local success = pcall(function()
+
+    ScreenGui.Parent = (gethui and gethui()) or CoreGui
+
+end)
+
+
+
+if not success then
+
+    ScreenGui.Parent = Player:WaitForChild("PlayerGui")
+
+end
+-- COLORS
+local BG = Color3.fromRGB(5, 5, 5)
+local PANEL = Color3.fromRGB(18, 18, 18)
+local WHITE = Color3.fromRGB(255, 255, 255)
+local BLACK = Color3.fromRGB(0, 0, 0)
+local GRAY = Color3.fromRGB(175, 175, 175)
+-- MAIN FRAME
+local Main = Instance.new("Frame", ScreenGui)
+
+Main.Size = UDim2.new(0, 650, 0, 410)
+
+Main.Position = UDim2.new(0.5, -325, 0.5, -205)
+
+Main.BackgroundColor3 = BG
+Main.BackgroundTransparency = 0.18
+Main.BorderSizePixel = 0
+Main.ClipsDescendants = true
+
+
+
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
+
+
+
+local Stroke = Instance.new("UIStroke", Main)
+
+Stroke.Color = WHITE
+
+Stroke.Thickness = 1.5
+-- TOP BAR
+local Top = Instance.new("Frame", Main)
+
+Top.Size = UDim2.new(1, 0, 0, 48)
+
+Top.BackgroundColor3 = PANEL
+Top.BackgroundTransparency = 0.18
+Top.BorderSizePixel = 0
+
+
+
+local TopCorner = Instance.new("UICorner", Top)
+
+TopCorner.CornerRadius = UDim.new(0, 12)
+
+
+
+local Title = Instance.new("TextLabel", Top)
+
+Title.Size = UDim2.new(0, 300, 1, 0)
+
+Title.Position = UDim2.new(0, 16, 0, 0)
+
+Title.BackgroundTransparency = 1
+
+Title.Text = "MEMAYBEO HUB"
+
+Title.TextColor3 = WHITE
+
+Title.TextSize = 22
+
+Title.Font = Enum.Font.GothamBold
+
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+
+
+local Version = Instance.new("TextLabel", Top)
+
+Version.Size = UDim2.new(0, 80, 1, 0)
+
+Version.Position = UDim2.new(0, 220, 0, 0)
+
+Version.BackgroundTransparency = 1
+
+Version.Text = "V2.6"
+
+Version.TextColor3 = GRAY
+
+Version.TextSize = 12
+
+Version.Font = Enum.Font.GothamBold
+
+
+
+local Minimize = Instance.new("TextButton", Top)
+
+Minimize.Size = UDim2.new(0, 35, 0, 30)
+
+Minimize.Position = UDim2.new(1, -45, 0, 9)
+
+Minimize.BackgroundColor3 = WHITE
+
+Minimize.Text = "—"
+
+Minimize.TextColor3 = BLACK
+
+Minimize.TextSize = 18
+
+Minimize.Font = Enum.Font.GothamBold
+
+Instance.new("UICorner", Minimize).CornerRadius = UDim.new(0, 6)
+
+-- MAXIMIZE / RESTORE BUTTON
+local Maximize = Instance.new("TextButton", Top)
+Maximize.Size = UDim2.new(0, 35, 0, 30)
+Maximize.Position = UDim2.new(1, -85, 0, 9)
+Maximize.BackgroundColor3 = WHITE
+Maximize.Text = "□"
+Maximize.TextColor3 = BLACK
+Maximize.TextSize = 18
+Maximize.Font = Enum.Font.GothamBold
+Instance.new("UICorner", Maximize).CornerRadius = UDim.new(0, 6)
+-- SIDEBAR
+local Sidebar = Instance.new("ScrollingFrame", Main)
+
+Sidebar.Position = UDim2.new(0, 0, 0, 48)
+
+Sidebar.Size = UDim2.new(0, 155, 1, -48)
+
+Sidebar.BackgroundColor3 = PANEL
+Sidebar.BackgroundTransparency = 0.22
+Sidebar.BorderSizePixel = 0
+Sidebar.ScrollBarThickness = 8
+Sidebar.ScrollBarImageColor3 = WHITE
+Sidebar.CanvasSize = UDim2.new(0, 0, 0, 0)
+Sidebar.ScrollingDirection = Enum.ScrollingDirection.Y
+Sidebar.AutomaticCanvasSize = Enum.AutomaticSize.Y
+
+
+
+local Categories = {
+    "BLOX FRUIT",
+    "KHÁC"
+}
+-- CONTENT
+local Content = Instance.new("Frame", Main)
+
+Content.Position = UDim2.new(0, 155, 0, 48)
+
+Content.Size = UDim2.new(1, -155, 1, -48)
+
+Content.BackgroundTransparency = 1
+
+
+
+local Search = Instance.new("TextBox", Content)
+
+Search.Position = UDim2.new(0, 15, 0, 14)
+
+Search.Size = UDim2.new(1, -30, 0, 35)
+
+Search.BackgroundColor3 = PANEL
+Search.BackgroundTransparency = 0.18
+
+Search.PlaceholderText = "  Search scripts..."
+
+Search.Text = ""
+
+Search.TextColor3 = WHITE
+
+Search.PlaceholderColor3 = GRAY
+
+Search.Font = Enum.Font.Gotham
+
+Search.TextSize = 13
+
+Search.ClearTextOnFocus = false
+
+Instance.new("UICorner", Search).CornerRadius = UDim.new(0, 7)
+
+
+
+local List = Instance.new("ScrollingFrame", Content)
+
+List.Position = UDim2.new(0, 15, 0, 60)
+
+List.Size = UDim2.new(1, -30, 1, -105)
+
+List.BackgroundTransparency = 1
+
+List.BorderSizePixel = 0
+
+List.ScrollBarThickness = 8
+
+List.ScrollBarImageColor3 = WHITE
+
+List.CanvasSize = UDim2.new(0, 0, 0, 0)
+List.ScrollingDirection = Enum.ScrollingDirection.Y
+List.AutomaticCanvasSize = Enum.AutomaticSize.Y
+
+
+
+local Layout = Instance.new("UIListLayout", List)
+
+Layout.Padding = UDim.new(0, 9)
+
+Layout.SortOrder = Enum.SortOrder.LayoutOrder
+
+
+
+local Padding = Instance.new("UIPadding", List)
+
+Padding.PaddingBottom = UDim.new(0, 8)
+
+
+
+local Status = Instance.new("TextLabel", Content)
+
+Status.Position = UDim2.new(0, 15, 1, -35)
+
+Status.Size = UDim2.new(1, -30, 0, 22)
+
+Status.BackgroundTransparency = 1
+
+Status.Text = "● MEMAYBEO HUB is ready"
+
+Status.TextColor3 = Color3.fromRGB(100, 220, 150)
+
+Status.Font = Enum.Font.Gotham
+
+Status.TextSize = 11
+
+Status.TextXAlignment = Enum.TextXAlignment.Left
+-- SCRIPT DATABASE
+local Scripts = {
+    -- Chưa có script nào. Thêm script mới vào đây khi cần.
+}
+
+
+local currentCategory = "BLOX FRUIT"
+
+local searchText = ""
+-- LOAD SCRIPT
+local function LoadScript(scriptData)
+
+    if not scriptData.URL or scriptData.URL == "" then
+
+        Status.Text = "● Script URL is empty"
+
+        Status.TextColor3 = Color3.fromRGB(255, 100, 100)
+
+        return
+
+    end
+
+
+
+    if type(loadstring) ~= "function" then
+
+        Status.Text = "● loadstring is not supported"
+
+        Status.TextColor3 = Color3.fromRGB(255, 100, 100)
+
+        return
+
+    end
+
+
+
+    Status.Text = "● Loading " .. scriptData.Name .. "..."
+
+    Status.TextColor3 = Color3.fromRGB(255, 200, 80)
+
+
+
+    task.spawn(function()
+
+        local ok, err = pcall(function()
+
+            local source = game:HttpGet(scriptData.URL)
+
+
+
+            if type(source) ~= "string" or source == "" then
+
+                error("Could not download script")
+
+            end
+
+
+
+            local func, compileError = loadstring(source)
+
+
+
+            if not func then
+
+                error(compileError or "Compile failed")
+
+            end
+
+
+
+            func()
+
+        end)
+
+
+
+        if ok then
+
+            Status.Text = "● Loaded: " .. scriptData.Name
+
+            Status.TextColor3 = Color3.fromRGB(100, 220, 150)
+
+        else
+
+            Status.Text = "● Error: " .. tostring(err)
+
+            Status.TextColor3 = Color3.fromRGB(255, 100, 100)
+
+            warn("[MEMAYBEO HUB] " .. tostring(err))
+
+        end
+
+    end)
+
+end
+-- CLEAR CARDS
+local function ClearList()
+
+    for _, v in ipairs(List:GetChildren()) do
+
+        if v:IsA("Frame") then
+
+            v:Destroy()
+
+        end
+
+    end
+
+end
+-- CREATE SCRIPT CARD
+local function CreateCard(data)
+
+    local Card = Instance.new("Frame", List)
+
+    Card.Size = UDim2.new(1, -5, 0, 82)
+
+    Card.BackgroundColor3 = PANEL
+    Card.BackgroundTransparency = 0.18
+    Card.BorderSizePixel = 0
+
+    Instance.new("UICorner", Card).CornerRadius = UDim.new(0, 8)
+
+
+
+    local Name = Instance.new("TextLabel", Card)
+
+    Name.Position = UDim2.new(0, 13, 0, 10)
+
+    Name.Size = UDim2.new(1, -120, 0, 23)
+
+    Name.BackgroundTransparency = 1
+
+    Name.Text = data.Name
+
+    Name.TextColor3 = WHITE
+
+    Name.TextSize = 14
+
+    Name.Font = Enum.Font.GothamBold
+
+    Name.TextXAlignment = Enum.TextXAlignment.Left
+
+
+
+    local Desc = Instance.new("TextLabel", Card)
+
+    Desc.Position = UDim2.new(0, 13, 0, 37)
+
+    Desc.Size = UDim2.new(1, -120, 0, 25)
+
+    Desc.BackgroundTransparency = 1
+
+    Desc.Text = data.Description
+
+    Desc.TextColor3 = GRAY
+
+    Desc.TextSize = 11
+
+    Desc.Font = Enum.Font.Gotham
+
+    Desc.TextXAlignment = Enum.TextXAlignment.Left
+
+
+
+    local Load = Instance.new("TextButton", Card)
+
+    Load.Position = UDim2.new(1, -95, 0.5, -16)
+
+    Load.Size = UDim2.new(0, 82, 0, 32)
+
+    Load.BackgroundColor3 = WHITE
+    Load.BackgroundTransparency = 0.05
+    Load.Text = "CLICK!"
+    Load.TextColor3 = BLACK
+
+    Load.TextSize = 12
+
+    Load.Font = Enum.Font.GothamBold
+
+    Instance.new("UICorner", Load).CornerRadius = UDim.new(0, 6)
+
+
+
+    Load.MouseButton1Click:Connect(function()
+
+        LoadScript(data)
+
+    end)
+
+end
+-- REFRESH LIST
+local function Refresh()
+
+    ClearList()
+
+
+
+    for _, data in ipairs(Scripts) do
+
+        local categoryMatch =
+                (currentCategory == "BLOX FRUIT" and data.Category == "BLOX FRUIT")
+                or (currentCategory == "KHÁC" and data.Category ~= "BLOX FRUIT")
+
+        local searchMatch =
+
+            searchText == ""
+
+            or string.find(string.lower(data.Name), searchText, 1, true)
+
+            or string.find(string.lower(data.Description), searchText, 1, true)
+
+
+
+        if categoryMatch and searchMatch then
+
+            CreateCard(data)
+
+        end
+
+    end
+
+
+
+    task.wait()
+
+    List.CanvasSize = UDim2.new(0, 0, 0, Layout.AbsoluteContentSize.Y + 10)
+
+end
+-- CATEGORY BUTTONS
+for i, category in ipairs(Categories) do
+
+    local Button = Instance.new("TextButton", Sidebar)
+
+    Button.Position = UDim2.new(0, 10, 0, 12 + (i - 1) * 43)
+
+    Button.Size = UDim2.new(1, -20, 0, 35)
+
+    Button.BackgroundColor3 = BG
+
+    Button.Text = category
+
+    Button.TextColor3 = GRAY
+
+    Button.TextSize = 11
+
+    Button.Font = Enum.Font.GothamBold
+
+    Instance.new("UICorner", Button).CornerRadius = UDim.new(0, 6)
+
+
+
+    Button.MouseButton1Click:Connect(function()
+
+        currentCategory = category
+
+
+
+        for _, obj in ipairs(Sidebar:GetChildren()) do
+
+            if obj:IsA("TextButton") then
+
+                obj.TextColor3 = GRAY
+
+                obj.BackgroundColor3 = BG
+
+            end
+
+        end
+
+
+
+        Button.TextColor3 = BLACK
+
+        Button.BackgroundColor3 = WHITE
+
+
+
+        Refresh()
+
+    end)
+
+end
+
+-- Cap nhat vung cuon cua thanh danh muc (ben trai)
+Sidebar.CanvasSize = UDim2.new(0, 0, 0, 12 + (#Categories * 43))
+
+Search:GetPropertyChangedSignal("Text"):Connect(function()
+
+    searchText = string.lower(Search.Text)
+
+    Refresh()
+
+end)
+-- MINIMIZE / MAXIMIZE
+local minimized = false
+local maximized = false
+local normalSize = UDim2.new(0, 650, 0, 410)
+local maximizedSize = UDim2.new(0, 850, 0, 540)
+
+local function ResizeHub(targetSize)
+    Main:TweenSize(targetSize, Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    Main.Position = UDim2.new(0.5, -targetSize.X.Offset / 2, 0.5, -targetSize.Y.Offset / 2)
+end
+
+Minimize.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    Sidebar.Visible = not minimized
+    Content.Visible = not minimized
+
+    local targetSize = minimized and UDim2.new(0, maximized and 850 or 650, 0, 48)
+        or (maximized and maximizedSize or normalSize)
+    ResizeHub(targetSize)
+    Minimize.Text = minimized and "+" or "—"
+end)
+
+Maximize.MouseButton1Click:Connect(function()
+    maximized = not maximized
+    minimized = false
+    Sidebar.Visible = true
+    Content.Visible = true
+    Minimize.Text = "—"
+    Maximize.Text = maximized and "❐" or "□"
+    ResizeHub(maximized and maximizedSize or normalSize)
+end)
+
+-- DRAG
+local dragging = false
+
+local dragStart
+
+local startPos
+
+
+
+Top.InputBegan:Connect(function(input)
+
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+
+        dragging = true
+
+        dragStart = input.Position
+
+        startPos = Main.Position
+
+    end
+
+end)
+
+
+
+UIS.InputChanged:Connect(function(input)
+
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+
+        local delta = input.Position - dragStart
+
+        Main.Position = UDim2.new(
+
+            startPos.X.Scale,
+
+            startPos.X.Offset + delta.X,
+
+            startPos.Y.Scale,
+
+            startPos.Y.Offset + delta.Y
+
+        )
+
+    end
+
+end)
+
+
+
+UIS.InputEnded:Connect(function(input)
+
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+
+        dragging = false
+
+    end
+
+end)
+-- FLOATING IMAGE BUTTON: TAP IMAGE TO SHOW / HIDE HUB
+Main.Visible = false
+
+local ToggleImage = Instance.new("ImageButton")
+ToggleImage.Name = "HubToggleImage"
+ToggleImage.Parent = ScreenGui
+ToggleImage.Size = UDim2.new(0, 64, 0, 64)
+ToggleImage.Position = UDim2.new(0, 20, 0.5, -32)
+ToggleImage.BackgroundColor3 = BLACK
+ToggleImage.BackgroundTransparency = 0.18
+ToggleImage.BorderSizePixel = 0
+ToggleImage.Image = "rbxassetid://84171476061285"
+ToggleImage.ScaleType = Enum.ScaleType.Crop
+ToggleImage.AutoButtonColor = true
+ToggleImage.ZIndex = 20
+
+local ToggleCorner = Instance.new("UICorner")
+ToggleCorner.CornerRadius = UDim.new(1, 0)
+ToggleCorner.Parent = ToggleImage
+
+local ToggleStroke = Instance.new("UIStroke")
+ToggleStroke.Color = WHITE
+ToggleStroke.Thickness = 2
+ToggleStroke.Parent = ToggleImage
+
+-- DRAGGABLE FLOATING IMAGE (mouse + touch)
+local imageDragging = false
+local imageMoved = false
+local dragInput = nil
+local dragStartPos = nil
+local imageStartPos = nil
+local DRAG_THRESHOLD = 6
+
+ToggleImage.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1
+        or input.UserInputType == Enum.UserInputType.Touch then
+        imageDragging = true
+        imageMoved = false
+        dragInput = input
+        dragStartPos = input.Position
+        imageStartPos = ToggleImage.Position
+    end
+end)
+
+UIS.InputChanged:Connect(function(input)
+    if not imageDragging then return end
+
+    local isMouseMove = input.UserInputType == Enum.UserInputType.MouseMovement
+    local isTouchMove = dragInput and dragInput.UserInputType == Enum.UserInputType.Touch
+        and input == dragInput
+
+    if isMouseMove or isTouchMove then
+        local delta = input.Position - dragStartPos
+        if math.abs(delta.X) > DRAG_THRESHOLD or math.abs(delta.Y) > DRAG_THRESHOLD then
+            imageMoved = true
+        end
+
+        if imageMoved then
+            ToggleImage.Position = UDim2.new(
+                imageStartPos.X.Scale,
+                imageStartPos.X.Offset + delta.X,
+                imageStartPos.Y.Scale,
+                imageStartPos.Y.Offset + delta.Y
+            )
+        end
+    end
+end)
+
+UIS.InputEnded:Connect(function(input)
+    local matchingRelease = input.UserInputType == Enum.UserInputType.MouseButton1
+        or (dragInput and dragInput.UserInputType == Enum.UserInputType.Touch
+            and input == dragInput)
+
+    if imageDragging and matchingRelease then
+        imageDragging = false
+        dragInput = nil
+
+        -- Only toggle the hub when the image was tapped, not dragged.
+        if not imageMoved then
+            Main.Visible = not Main.Visible
+        end
+    end
+end)
+
+-- START
+Sidebar:FindFirstChildOfClass("TextButton").TextColor3 = BLACK
+
+Sidebar:FindFirstChildOfClass("TextButton").BackgroundColor3 = WHITE
+
+
+
+Refresh()
